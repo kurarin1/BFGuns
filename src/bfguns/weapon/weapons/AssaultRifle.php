@@ -98,7 +98,6 @@ class AssaultRifle extends Weapon implements Tags
     }
 
     public function onTouch(){
-        BFGuns::getWeaponManager()->checkPlayerWeapon($this->player, $this->player->getInventory()->getItemInHand());
         $this->shooting = !$this->shooting;
     }
 
@@ -112,6 +111,7 @@ class AssaultRifle extends Weapon implements Tags
     {
         if($this->reloading){
             $item = $this->player->getInventory()->getItemInHand();
+            if($item->getNamedTag()->offsetGet(self::TAG_UNIQUE_ID) !== $this->uuid) return;
             /*装飾*/
             $this->player->sendPopup($item->getCustomName() . "®");
             $bar = '⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸';
@@ -151,6 +151,7 @@ class AssaultRifle extends Weapon implements Tags
                 $this->rateCounter++;
                 if($this->rateCounter % $this->weaponStatus["Shooting_Rate"] === 0){
                     $item = $this->player->getInventory()->getItemInHand();
+                    if($item->getNamedTag()->offsetGet(self::TAG_UNIQUE_ID) !== $this->uuid) return;
                     $tag = $item->getNamedTag();
                     $ammo = $tag->getInt(self::TAG_WEAPON_AMMO);
                     if($ammo > 0){
@@ -168,7 +169,7 @@ class AssaultRifle extends Weapon implements Tags
                             0
                         );
 
-                        $entity = new Bullet($this->player->level, $nbt, $this->player);
+                        $entity = new Bullet($this->player->level, $nbt, $this->player, $this);
                         $entity->setBaseDamage($this->weaponStatus["Bullet_Damage"]);
                         $entity->spawnToAll();
 

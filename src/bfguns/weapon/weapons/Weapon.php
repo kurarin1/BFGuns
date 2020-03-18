@@ -61,6 +61,10 @@ abstract class Weapon implements Tags
         $this->player = $player;
     }
 
+    public function getName() : string {
+        return $this->weaponStatus["Item_Name"];
+    }
+
     public function getItem() : Item{
         $item = Item::fromString($this->weaponStatus["Item_ID"]);
 

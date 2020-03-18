@@ -109,7 +109,7 @@ class WeaponManager implements Tags
         }
     }
 
-    public function checkPlayerWeapon(Player $player, Item $newItem){
+    /*public function checkPlayerWeapon(Player $player, Item $newItem){
         $newTag = $newItem->getNamedTag();
         if(BFGuns::getWeaponManager()->getPlayerWeapon($player)->getUUID() !== $newTag->offsetGet(self::TAG_UNIQUE_ID)){
             try {
@@ -118,6 +118,6 @@ class WeaponManager implements Tags
                 BFGuns::getWeaponManager()->setPlayerWeapon($player, new BFEmpty());
             }
         }
-    }
+    }*/
 
 }

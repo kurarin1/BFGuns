@@ -11,9 +11,7 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\item\Item;
 use pocketmine\network\mcpe\protocol\LoginPacket;
-use pocketmine\Player;
 
 class WeaponListener implements Listener , Tags
 {
@@ -43,16 +41,25 @@ class WeaponListener implements Listener , Tags
     }
 
     public function onItemHeld(PlayerItemHeldEvent $event){
-        BFGuns::getWeaponManager()->checkPlayerWeapon($event->getPlayer(), $event->getPlayer()->getInventory()->getItemInHand());
+        $player = $event->getPlayer();
+
+        $newItem = $event->getItem();
+        $newTag = $newItem->getNamedTag();
+
+        if(BFGuns::getWeaponManager()->getPlayerWeapon($player)->getUUID() !== $newTag->offsetGet(self::TAG_UNIQUE_ID)){
+            try {
+                BFGuns::getWeaponManager()->setPlayerWeaponFromId($event->getPlayer(), $newTag->getString(self::TAG_WEAPON_ID), $newTag->getString(self::TAG_UNIQUE_ID));
+            }catch (\Exception $exception){
+                BFGuns::getWeaponManager()->setPlayerWeapon($event->getPlayer(), new BFEmpty());
+            }
+        }
     }
 
     public function onInteract(PlayerInteractEvent $event){
-        BFGuns::getWeaponManager()->checkPlayerWeapon($event->getPlayer(), $event->getPlayer()->getInventory()->getItemInHand());
         BFGuns::getWeaponManager()->getPlayerWeapon($event->getPlayer())->onInteract($event);
     }
 
     public function onDropItem(PlayerDropItemEvent $event){
-        BFGuns::getWeaponManager()->checkPlayerWeapon($event->getPlayer(), $event->getPlayer()->getInventory()->getItemInHand());
         BFGuns::getWeaponManager()->getPlayerWeapon($event->getPlayer())->onDropItem($event);
     }
 
