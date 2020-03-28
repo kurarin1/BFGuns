@@ -8,6 +8,7 @@ use bfguns\weapon\Tags;
 use bfguns\weapon\WeaponManager;
 use ddapi\DeviceDataAPI;
 use pocketmine\entity\Entity;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
@@ -99,6 +100,12 @@ class AssaultRifle extends Weapon implements Tags
 
     public function onTouch(){
         $this->shooting = !$this->shooting;
+    }
+
+    public function onDeath(PlayerDeathEvent $event)
+    {
+        $this->reloading = false;
+        $this->shooting = false;
     }
 
     public function onDropItem(PlayerDropItemEvent $event)

@@ -4,6 +4,7 @@ namespace bfguns\weapon\weapons;
 
 use bfguns\BFGuns;
 use bfguns\weapon\Tags;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
@@ -123,6 +124,10 @@ abstract class Weapon implements Tags
     }
 
     public function onPacketReceive(DataPacketReceiveEvent $event){
+
+    }
+
+    public function onDeath(PlayerDeathEvent $event){
 
     }
 }

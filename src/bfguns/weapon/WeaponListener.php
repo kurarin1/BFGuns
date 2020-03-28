@@ -5,6 +5,7 @@ namespace bfguns\weapon;
 use bfguns\BFGuns;
 use bfguns\weapon\weapons\BFEmpty;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
@@ -61,6 +62,10 @@ class WeaponListener implements Listener , Tags
 
     public function onDropItem(PlayerDropItemEvent $event){
         BFGuns::getWeaponManager()->getPlayerWeapon($event->getPlayer())->onDropItem($event);
+    }
+
+    public function onDeath(PlayerDeathEvent $event){
+        BFGuns::getWeaponManager()->getPlayerWeapon($event->getPlayer())->onDeath($event);
     }
 
     public function onPacketReceive(DataPacketReceiveEvent $event){
