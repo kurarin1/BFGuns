@@ -21,13 +21,15 @@ abstract class Weapon implements Tags
 {
     const CATEGORY_ID = "";
 
-    const DEFAULT_STATUS = [
-        "Weapon_Id" => "WeaponId",
-        "Weapon_Category" => "ar",
+    const COMMON_STATUS = [
+        //"Weapon_Id" => "WeaponId",
+        //"Weapon_Category" => "ar",
         "Item_Name" => "WeaponName",
         "Item_ID" => "minecraft:wooden_pickaxe:0",
         "Item_Lore" => "説明文!n説明文2!n説明文3..."
     ];
+
+    const DEFAULT_STATUS = [];
 
     /* @var $player Player*/
     protected $player;
@@ -84,6 +86,13 @@ abstract class Weapon implements Tags
     }
 
     protected static function getComplementedStatus(array $data) : array {
+        if(!isset($data["Weapon_Id"])) $data["Weapon_Id"] = UUID::fromRandom()->toString();
+        if(!isset($data["Weapon_Id"])) $data["Weapon_Category"] = static::CATEGORY_ID;
+
+        foreach (self::COMMON_STATUS as $key => $value){
+            if(!isset($data[$key])) $data[$key] = $value;
+        }
+
         foreach (static::DEFAULT_STATUS as $key => $value){
             if(!isset($data[$key])) $data[$key] = $value;
         }

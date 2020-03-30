@@ -4,6 +4,7 @@ namespace bfguns\weapon;
 
 use bfguns\BFGuns;
 use bfguns\weapon\weapons\AssaultRifle;
+use bfguns\weapon\weapons\FullAuto;
 use bfguns\weapon\weapons\BFEmpty;
 use bfguns\weapon\weapons\LightMachineGun;
 use bfguns\weapon\weapons\SubMachineGun;
@@ -28,7 +29,7 @@ class WeaponManager implements Tags
     }
 
     public function init(){
-        $this->registerCategory(AssaultRifle::CATEGORY_ID, AssaultRifle::class);
+        $this->registerCategory(AssaultRifle::CATEGORY_ID, FullAuto::class);
         $this->registerCategory(SubMachineGun::CATEGORY_ID, SubMachineGun::class);
         $this->registerCategory(LightMachineGun::CATEGORY_ID, LightMachineGun::class);
         $this->read();

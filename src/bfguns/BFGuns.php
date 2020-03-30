@@ -3,6 +3,9 @@
 namespace bfguns;
 
 use bfguns\weapon\WeaponManager;
+use bfguns\weapon\weapons\AssaultRifle;
+use bfguns\weapon\weapons\LightMachineGun;
+use bfguns\weapon\weapons\SubMachineGun;
 use pocketmine\plugin\PluginBase;
 
 class BFGuns extends PluginBase
