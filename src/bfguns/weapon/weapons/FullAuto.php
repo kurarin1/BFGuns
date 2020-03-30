@@ -7,6 +7,7 @@ use bfguns\entity\Bullet;
 use bfguns\weapon\Tags;
 use bfguns\weapon\WeaponManager;
 use ddapi\DeviceDataAPI;
+use pocketmine\entity\Attribute;
 use pocketmine\entity\Entity;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
@@ -26,6 +27,7 @@ abstract class FullAuto extends Weapon implements Tags
     const CATEGORY_ID = "fullauto";
 
     const DEFAULT_STATUS = [
+        "Movement_Speed_Shooting" => 0.8,
         "Shooting_Rate" => 2,
         "Ammo_Capacity" => 30,
         "Bullet_Damage" => 1,
@@ -93,19 +95,20 @@ abstract class FullAuto extends Weapon implements Tags
     }
 
     public function onTouch(){
-        $this->shooting = !$this->shooting;
+        $this->setShooting(!$this->shooting);
     }
 
     public function onDeath(PlayerDeathEvent $event)
     {
         $this->reloading = false;
-        $this->shooting = false;
+        $this->setShooting(false);
     }
 
     public function onDropItem(PlayerDropItemEvent $event)
     {
         $event->setCancelled(true);
         $this->reloading = true;
+        $this->setShooting(false);
     }
 
     public function onUpdate(int $currentTick)
@@ -134,7 +137,7 @@ abstract class FullAuto extends Weapon implements Tags
                 $this->reloading = false;
                 $this->reloadCounter = 0;
 
-                $this->shooting = false;
+                $this->setShooting(false);
                 /*装飾*/
                 $this->playSound($this->player, $this->weaponStatus["Sound_Reloaded_Name"], $this->weaponStatus["Sound_Reloaded_Pitch"], $this->weaponStatus["Sound_Reloaded_Volume"]);
                 $this->player->sendPopup($item->getCustomName());
@@ -179,10 +182,18 @@ abstract class FullAuto extends Weapon implements Tags
                         $this->player->sendPopup($item->getCustomName());
                     }else{
                         $this->reloading = true;
+                        $this->setShooting(false);
                     }
                 }
             }
         }
+    }
+
+    protected function setShooting(bool $shooting){
+        $this->shooting = $shooting;
+
+        $attribute = $this->player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+        $attribute->setValue($attribute->getDefaultValue() * ($shooting ? $this->weaponStatus["Movement_Speed_Shooting"] : $this->weaponStatus["Movement_Speed"]) * ($this->player->isSprinting() ? 1.3 : 1), false, true);
     }
 
 }
