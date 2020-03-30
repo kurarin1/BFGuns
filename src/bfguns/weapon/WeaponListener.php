@@ -18,14 +18,6 @@ class WeaponListener implements Listener , Tags
 {
 
     /**
-     * @priority LOWEST
-     * @param PlayerJoinEvent $event
-     */
-    public function onJoin(PlayerJoinEvent $event){
-        //$event->getPlayer()->getInventory()->setContents([BFGuns::getWeaponManager()->getWeapon("sample")->getItem()]);
-    }
-
-    /**
      * @priority HIGHEST
      * @param PlayerJoinEvent $event
      */
@@ -35,6 +27,7 @@ class WeaponListener implements Listener , Tags
         }catch (\Exception $exception){
             BFGuns::getWeaponManager()->setPlayerWeapon($event->getPlayer(), new BFEmpty());
         }
+        //$event->getPlayer()->getInventory()->setContents([BFGuns::getWeaponManager()->getWeapon("Effexor")->getItem()]);//デバッグコード
     }
 
     public function onQuit(PlayerQuitEvent $event){

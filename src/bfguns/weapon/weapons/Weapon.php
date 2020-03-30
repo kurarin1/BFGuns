@@ -4,6 +4,7 @@ namespace bfguns\weapon\weapons;
 
 use bfguns\BFGuns;
 use bfguns\weapon\Tags;
+use pocketmine\entity\Attribute;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -27,7 +28,7 @@ abstract class Weapon implements Tags
         "Item_Name" => "WeaponName",
         "Item_ID" => "minecraft:wooden_pickaxe:0",
         "Item_Lore" => "説明文!n説明文2!n説明文3...",
-        "Movement_Speed" => 0.1
+        "Movement_Speed" => 1.0
     ];
 
     const DEFAULT_STATUS = [];
@@ -50,11 +51,13 @@ abstract class Weapon implements Tags
     }
 
     public function init(){
-
+        $attribute = $this->player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+        $attribute->setValue($attribute->getDefaultValue() * $this->weaponStatus["Movement_Speed"] * ($this->player->isSprinting() ? 1.3 : 1), false, true);
     }
 
     public function fin(){
-
+        $attribute = $this->player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+        $attribute->setValue($attribute->getDefaultValue() * ($this->player->isSprinting() ? 1.3 : 1), false, true);
     }
 
     public function getUUID() : string {

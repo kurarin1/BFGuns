@@ -29,7 +29,7 @@ class WeaponManager implements Tags
     }
 
     public function init(){
-        $this->registerCategory(AssaultRifle::CATEGORY_ID, FullAuto::class);
+        $this->registerCategory(AssaultRifle::CATEGORY_ID, AssaultRifle::class);
         $this->registerCategory(SubMachineGun::CATEGORY_ID, SubMachineGun::class);
         $this->registerCategory(LightMachineGun::CATEGORY_ID, LightMachineGun::class);
         $this->read();
