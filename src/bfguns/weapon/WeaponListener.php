@@ -27,7 +27,7 @@ class WeaponListener implements Listener , Tags
         }catch (\Exception $exception){
             BFGuns::getWeaponManager()->setPlayerWeapon($event->getPlayer(), new BFEmpty());
         }
-        $event->getPlayer()->getInventory()->setContents([BFGuns::getWeaponManager()->getWeapon("NA01")->getItem(), BFGuns::getWeaponManager()->getWeapon("Destroyer")->getItem(), BFGuns::getWeaponManager()->getWeapon("HG01")->getItem()]);//デバッグコード
+        //$event->getPlayer()->getInventory()->setContents([BFGuns::getWeaponManager()->getWeapon("NA01")->getItem(), BFGuns::getWeaponManager()->getWeapon("Destroyer")->getItem(), BFGuns::getWeaponManager()->getWeapon("HG01")->getItem()]);//デバッグコード
     }
 
     public function onQuit(PlayerQuitEvent $event){
