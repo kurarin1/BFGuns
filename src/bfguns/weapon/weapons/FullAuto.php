@@ -32,7 +32,6 @@ abstract class FullAuto extends Weapon implements Tags
         "Bullet_Speed" => 5,
         "Bullet_Spread" => 2,
         "Reload_Duration" => 60,
-        "Movement_Speed" => 0.1,
         "Sound_Shooting_Name" => "bf2.assaultrifle_shot",
         "Sound_Shooting_Pitch" => 1,
         "Sound_Shooting_Volume" => 1,

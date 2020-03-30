@@ -26,7 +26,8 @@ abstract class Weapon implements Tags
         //"Weapon_Category" => "ar",
         "Item_Name" => "WeaponName",
         "Item_ID" => "minecraft:wooden_pickaxe:0",
-        "Item_Lore" => "説明文!n説明文2!n説明文3..."
+        "Item_Lore" => "説明文!n説明文2!n説明文3...",
+        "Movement_Speed" => 0.1
     ];
 
     const DEFAULT_STATUS = [];
