@@ -36,6 +36,14 @@ class Bullet extends Projectile
         $this->weapon = $weapon;
     }
 
+    public function setGravity(float $gravity){
+        $this->gravity = $gravity;
+    }
+
+    public function setDrag(float $drag){
+        $this->drag = $drag;
+    }
+
     protected function onHitBlock(Block $blockHit, RayTraceResult $hitResult): void{
         parent::onHitBlock($blockHit, $hitResult);
         $this->level->addParticle(new DestroyBlockParticle($this, $blockHit));

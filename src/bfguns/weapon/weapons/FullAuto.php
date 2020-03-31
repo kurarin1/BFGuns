@@ -46,11 +46,11 @@ abstract class FullAuto extends Weapon implements Tags
         "Sound_Reloaded_Volume" => 1
     ];
 
-    private $shooting = false;
-    private $rateCounter = -1;
+    protected $shooting = false;
+    protected $rateCounter = -1;
 
-    private $reloading = false;
-    private $reloadCounter = 0;
+    protected $reloading = false;
+    protected $reloadCounter = 0;
 
     public static function initStatic()
     {
@@ -176,7 +176,6 @@ abstract class FullAuto extends Weapon implements Tags
                         $entity = new Bullet($this->player->level, $nbt, $this->player, $this);
                         $entity->setBaseDamage($this->weaponStatus["Bullet_Damage"]);
                         $entity->spawnToAll();
-
                         //装飾
                         $this->playSound($this->player, $this->weaponStatus["Sound_Shooting_Name"], $this->weaponStatus["Sound_Shooting_Pitch"], $this->weaponStatus["Sound_Shooting_Volume"]);
                         $this->player->sendPopup($item->getCustomName());

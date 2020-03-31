@@ -7,6 +7,7 @@ use bfguns\weapon\weapons\AssaultRifle;
 use bfguns\weapon\weapons\FullAuto;
 use bfguns\weapon\weapons\BFEmpty;
 use bfguns\weapon\weapons\HandGun;
+use bfguns\weapon\weapons\ShotGun;
 use bfguns\weapon\weapons\SingleShot;
 use bfguns\weapon\weapons\LightMachineGun;
 use bfguns\weapon\weapons\SniperRifle;
@@ -39,6 +40,7 @@ class WeaponManager implements Tags
         //単発
         $this->registerCategory(HandGun::CATEGORY_ID, HandGun::class);
         $this->registerCategory(SniperRifle::CATEGORY_ID, SniperRifle::class);
+        $this->registerCategory(ShotGun::CATEGORY_ID, ShotGun::class);
         $this->read();
 
         BFGuns::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(

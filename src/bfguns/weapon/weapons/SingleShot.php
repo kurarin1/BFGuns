@@ -46,10 +46,10 @@ abstract class SingleShot extends Weapon implements Tags
         "Sound_Reloaded_Volume" => 1
     ];
 
-    private $reloading = false;
-    private $reloadCounter = 0;
+    protected $reloading = false;
+    protected $reloadCounter = 0;
 
-    private $lastShot = 0;
+    protected $lastShot = 0;
 
     public static function initStatic()
     {
@@ -94,36 +94,38 @@ abstract class SingleShot extends Weapon implements Tags
     }
 
     public function onTouch(){//ここも共通処理にできる
-        if(Server::getInstance()->getTick() - $this->lastShot >= $this->weaponStatus["Shot_Rate"]){
-            $item = $this->player->getInventory()->getItemInHand();
-            if($item->getNamedTag()->offsetGet(self::TAG_UNIQUE_ID) !== $this->uuid) return;
-            $tag = $item->getNamedTag();
-            $ammo = $tag->getInt(self::TAG_WEAPON_AMMO);
-            if($ammo > 0){
-                $ammo--;
-                $this->lastShot = Server::getInstance()->getTick();
-                $tag->setInt(self::TAG_WEAPON_AMMO, $ammo);
-                $item->setNamedTag($tag);
-                $item->setCustomName($this->weaponStatus["Item_Name"] . "§r§f ▪ «" . $ammo . "»");
-                $this->player->getInventory()->setItemInHand($item);
+        if(!$this->reloading){
+            if(Server::getInstance()->getTick() - $this->lastShot >= $this->weaponStatus["Shot_Rate"]){
+                $item = $this->player->getInventory()->getItemInHand();
+                if($item->getNamedTag()->offsetGet(self::TAG_UNIQUE_ID) !== $this->uuid) return;
+                $tag = $item->getNamedTag();
+                $ammo = $tag->getInt(self::TAG_WEAPON_AMMO);
+                if($ammo > 0){
+                    $ammo--;
+                    $this->lastShot = Server::getInstance()->getTick();
+                    $tag->setInt(self::TAG_WEAPON_AMMO, $ammo);
+                    $item->setNamedTag($tag);
+                    $item->setCustomName($this->weaponStatus["Item_Name"] . "§r§f ▪ «" . $ammo . "»");
+                    $this->player->getInventory()->setItemInHand($item);
 
-                $spread = $this->weaponStatus["Bullet_Spread"];
-                $nbt = Entity::createBaseNBT(
-                    $this->player->add(0, $this->player->getEyeHeight(), 0),
-                    $this->getDirectionVector($this->player->yaw + mt_rand(-$spread, $spread)/100, $this->player->pitch + mt_rand(-$spread, $spread)/100)->multiply($this->weaponStatus["Bullet_Speed"]),
-                    0,
-                    0
-                );
+                    $spread = $this->weaponStatus["Bullet_Spread"];
+                    $nbt = Entity::createBaseNBT(
+                        $this->player->add(0, $this->player->getEyeHeight(), 0),
+                        $this->getDirectionVector($this->player->yaw + mt_rand(-$spread, $spread)/100, $this->player->pitch + mt_rand(-$spread, $spread)/100)->multiply($this->weaponStatus["Bullet_Speed"]),
+                        0,
+                        0
+                    );
 
-                $entity = new Bullet($this->player->level, $nbt, $this->player, $this);
-                $entity->setBaseDamage($this->weaponStatus["Bullet_Damage"]);
-                $entity->spawnToAll();
+                    $entity = new Bullet($this->player->level, $nbt, $this->player, $this);
+                    $entity->setBaseDamage($this->weaponStatus["Bullet_Damage"]);
+                    $entity->spawnToAll();
 
-                //装飾
-                $this->playSound($this->player, $this->weaponStatus["Sound_Shot_Name"], $this->weaponStatus["Sound_Shot_Pitch"], $this->weaponStatus["Sound_Shot_Volume"]);
-                $this->player->sendPopup($item->getCustomName());
-            }else{
-                $this->reloading = true;
+                    //装飾
+                    $this->playSound($this->player, $this->weaponStatus["Sound_Shot_Name"], $this->weaponStatus["Sound_Shot_Pitch"], $this->weaponStatus["Sound_Shot_Volume"]);
+                    $this->player->sendPopup($item->getCustomName());
+                }else{
+                    $this->reloading = true;
+                }
             }
         }
     }
