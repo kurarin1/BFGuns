@@ -41,6 +41,7 @@ class WeaponManager implements Tags
         $this->registerCategory(HandGun::CATEGORY_ID, HandGun::class);
         $this->registerCategory(SniperRifle::CATEGORY_ID, SniperRifle::class);
         $this->registerCategory(ShotGun::CATEGORY_ID, ShotGun::class);
+
         $this->read();
 
         BFGuns::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(

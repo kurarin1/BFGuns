@@ -81,6 +81,7 @@ abstract class FullAuto extends Weapon implements Tags
             elseif($pk->transactionType === InventoryTransactionPacket::TYPE_USE_ITEM_ON_ENTITY)
             {
                 //useItemOnEntity
+                $event->setCancelled(true);
                 if(DeviceDataAPI::getInstance()->getCurrentInputMode($this->player) !== DeviceDataAPI::INPUTMODE_KEYBOARD) $this->onTouch();
             }
         }
